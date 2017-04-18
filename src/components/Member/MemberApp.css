@@ -1,0 +1,11 @@
+.addMemberBtn {
+  float: right;
+  margin-right: 40px;
+  display: block;
+}
+
+/*.MainPage-main-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+}*/

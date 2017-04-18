@@ -1,0 +1,10 @@
+.MemberList {
+  width: 90%;
+  text-align: center;
+  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
