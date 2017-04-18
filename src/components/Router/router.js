@@ -11,12 +11,6 @@ import MemberApp from '../Member/MemberApp';
 import AddMember from '../Member/AddMember';
 import Calender from '../Calender/Calender'
 
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-)
-
 const Topic = ({ match }) => (
   <div>
     <h3>{match.params.topicId}</h3>

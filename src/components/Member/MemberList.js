@@ -1,53 +1,9 @@
 import React, { Component } from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
-import firebase, {firebaseRef} from '../../Firebase/';
+import {firebaseRef} from '../../Firebase/';
 
 import './MemberList.css';
-
-const tableData = [
-  {
-    FirstName: 'John',
-    LastName: 'Smith',
-    position: 'Mid',
-    selected: true,
-  },
-  {
-    FirstName: 'Bob',
-    LastName: 'Jones',
-    position: 'Mid',
-  },
-  {
-    FirstName: 'John',
-    LastName: 'Smith',
-    position: 'Mid',
-    selected: true,
-  },
-  {
-    FirstName: 'John',
-    LastName: 'Smith',
-    position: 'Mid',
-    selected: true,
-  },
-  {
-    FirstName: 'John',
-    LastName: 'Smith',
-    position: 'Mid',
-    selected: true,
-  },
-  {
-    FirstName: 'John',
-    LastName: 'Smith',
-    position: 'Mid',
-    selected: true,
-  },
-  {
-    FirstName: 'John',
-    LastName: 'Smith',
-    position: 'Mid',
-    selected: true,
-  },
-];
 
 class App extends Component {
   constructor() {
@@ -57,7 +13,7 @@ class App extends Component {
       members: []
     }
 
-    this.ref = firebase.database().ref().child('User')
+    this.ref = firebaseRef.child('User')
     this.getMembers = this.getMembers.bind(this)
   }
 
@@ -72,11 +28,8 @@ class App extends Component {
   getMembers(snapshot) {
     let members = [];
     const memberObj = snapshot.val()
-    console.log(memberObj);
     for(let key in memberObj) {
       if(memberObj.hasOwnProperty(key)) {
-        console.log('has key');
-        console.log(memberObj[key]);
         members.push(memberObj[key])
       }
     }

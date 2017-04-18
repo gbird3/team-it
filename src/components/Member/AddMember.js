@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import firebase, {firebaseRef} from '../../Firebase';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+import {firebaseRef} from '../../Firebase';
 
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
@@ -22,7 +17,7 @@ class AddMember extends Component {
       newMember: ''
     }
 
-    this.ref = firebase.database().ref().child('User')
+    this.ref = firebaseRef.child('User')
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleTextChange = this.handleTextChange.bind(this)
   }

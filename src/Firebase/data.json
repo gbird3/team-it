@@ -1,0 +1,24 @@
+{
+    "Team": {
+        "Team1": {
+            "name": "Team"
+        }
+    },
+    "User": {
+        "bjXiKW0tNmgDZsHgine89hnJ8pF2": {
+            "firstName": "Greg",
+            "lastName": "Bird",
+            "email": "gregbird12@gmail.com",
+            "position": "mid"
+        }
+    },
+    "Event": {
+      "Event1": {
+        "title": "All Day Event",
+        "allDay": true,
+        "start": "Tue Apr 18 2017 00:00:00 GMT-0600 (Mountain Daylight Time)",
+        "end": "Tue Mar 19 2017 00:00:00 GMT-0600 (Mountain Daylight Time)",
+        "team": "Team1"
+      }
+    }
+}

@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import MemberList from './MemberList';
 
@@ -17,7 +13,7 @@ class App extends Component {
       <div>
         <div className="MainPage-main-content">
           <div>
-            <RaisedButton label="Add Member" primary={true} className="addMemberBtn" containerElement={<Link to ="/add-member"/>} />
+            <RaisedButton label="Add Member" primary={true} className="addMemberBtn" containerElement={<Link to="/add-member"/>} />
           </div>
           <MemberList />
         </div>

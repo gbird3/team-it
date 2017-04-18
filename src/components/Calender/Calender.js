@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import firebase, {firebaseRef} from '../../Firebase';
+import {firebaseRef} from '../../Firebase';
 import BigCalendar from 'react-big-calendar';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import event from './events';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
