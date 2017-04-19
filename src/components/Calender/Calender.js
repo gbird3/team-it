@@ -5,9 +5,11 @@ import BigCalendar from 'react-big-calendar';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField'
 import event from './events';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import './Calender.css'
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
@@ -18,12 +20,16 @@ class Calender extends Component {
     this.state = {
       events: [],
       open: false,
-      selected: []
+      newOpen: false,
+      selected: [],
+      title: ''
     }
 
     this.ref = firebaseRef.child('Event');
     this.getEvents = this.getEvents.bind(this);
-    this.addEvent = this.addEvent.bind(this);
+    this.deleteEvent = this.deleteEvent.bind(this);
+    this.handleAddEvent = this.handleAddEvent.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
   }
 
   componentDidMount() {
@@ -48,31 +54,61 @@ class Calender extends Component {
   }
 
   handleOpen = (event) => {
-    console.log(event);
     this.setState({
       open: true,
-      selected: event
+      selected: event,
+      start: event.start.toLocaleString(),
+      end: event.end.toLocaleString()
     });
   };
 
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({
+      open: false,
+      newOpen: false
+    });
   };
 
-  addEvent(slotInfo) {
-    alert(
-      `selected slot: \n\nstart ${slotInfo.start.toISOString()} ` +
-      `\nend: ${slotInfo.end.toLocaleString()}`)
+  newEventDialog(slotInfo) {
+    this.setState({
+      newOpen: true,
+      title: slotInfo.title,
+      start: slotInfo.start,
+      end: slotInfo.end
+    })
+  }
 
-    const newEvent = {
-      title: "event",
-      allDay: "false",
-      start: slotInfo.start.toISOString(),
-      end: slotInfo.end.toISOString(),
-      team: "team1"
+  handleAddEvent(e) {
+    e.preventDefault()
+    if (this.state.title && this.state.start && this.state.end) {
+      const newKey = this.ref.push().key
+
+      const newEvent = {
+        title: this.state.title,
+        start: this.state.start.toISOString(),
+        end: this.state.end.toISOString(),
+        team: "team1",
+        uid: newKey
+      }
+      this.ref.child(newKey).set(newEvent)
     }
-    const newKey = this.ref.push().key
-    this.ref.child(newKey).set(newEvent)
+    this.setState({newOpen: false})
+  }
+
+  handleTextChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  deleteEvent() {
+    this.ref.child(this.state.selected.uid).remove();
+    this.setState({
+      selected: [],
+      start: '',
+      end: ''
+    })
+    this.handleClose();
   }
 
   render(){
@@ -83,30 +119,82 @@ class Calender extends Component {
         onTouchTap={this.handleClose}
       />,
       <FlatButton
-        label="Submit"
-        primary={true}
-        disabled={true}
-        onTouchTap={this.handleClose}
+        label="Delete"
+        secondary={true}
+        onTouchTap={this.deleteEvent}
       />,
     ];
 
+    const EventActions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Add"
+        secondary={true}
+        onTouchTap={this.handleAddEvent}
+      />,
+    ];
+
+    const views = ['week', 'day'];
+
     return (
-      <div>
+      <div className="flexbox-container-calender">
+        <h3>Team Schedule</h3>
+        <p>To add a new event, simply drag the mouse accorss the desired time slots</p>
         <BigCalendar
           {...this.props}
           selectable
+          popup
           events={this.state.events}
           defaultView='week'
+          views={views}
           onSelectEvent={event => this.handleOpen(event)}
-          onSelectSlot={slotInfo => this.addEvent(slotInfo)}
+          onSelectSlot={slotInfo => this.newEventDialog(slotInfo)}
         />
         <Dialog
-          title={this.state.selected.title}
+          title="Event Information"
           actions={actions}
           modal={true}
           open={this.state.open}
         >
-          Only actions can close this dialog.
+          <div>
+            Name: {this.state.selected.title}
+            <br /><br />
+            Start Date: {this.state.start}
+            <br /><br />
+            End Date: {this.state.end}
+            <br /><br />
+          </div>
+        </Dialog>
+        <Dialog
+          title="Add New Event"
+          actions={EventActions}
+          modal={true}
+          open={this.state.newOpen}
+        >
+          <form onSubmit={this.handleSubmit}>
+            <TextField
+              name="title"
+              value={this.state.title}
+              onChange={this.handleTextChange}
+              floatingLabelText="Event Name:" />
+            <br />
+            <TextField
+              name="start"
+              value={this.state.start}
+              onChange={this.handleTextChange}
+              floatingLabelText="Start Time:" />
+            <br />
+            <TextField
+              name="end"
+              value={this.state.end}
+              onChange={this.handleTextChange}
+              floatingLabelText="End Time:" />
+            <br />
+          </form>
         </Dialog>
       </div>
     )
