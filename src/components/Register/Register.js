@@ -1,41 +1,50 @@
 import React, { Component } from 'react';
-import {firebaseRef} from '../../Firebase';
+import firebase, {firebaseRef} from '../../Firebase';
 
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton';
 
-import './AddMember.css';
 
-
-class AddMember extends Component {
+class Register extends Component {
   constructor() {
     super()
 
     this.state = {
-      newMember: ''
+      email: '',
+      password: ''
     }
 
-    this.ref = firebaseRef.child('User')
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleTextChange = this.handleTextChange.bind(this)
+    this.ref = firebaseRef.child('User');
+    this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    if (this.state.firstName && this.state.lastName) {
-      const newMember = {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        email: this.state.email,
-        position: this.state.position
+    let firstName = this.state.firstName;
+    let lastName = this.state.lastName;
+    let position = this.state.position;
+
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(authData, error) {
+      if (error) {
+        console.log(error);
+      } else {
+
+        const newMember = {
+          firstName: firstName,
+          lastName: lastName,
+          email: authData.email,
+          position: position,
+          team: 'Team1', // hardcoded for now until team functionality comes along
+          uid: authData.uid
+        }
+        firebaseRef.child('User').child(authData.uid).set(newMember);
+
+        document.location.href = '/members'
       }
+    })
 
-      const newKey = this.ref.push().key
-      this.ref.child(newKey).set(newMember)
-
-      document.location.href = '/members'
-    }
   }
 
   handleTextChange(e) {
@@ -48,7 +57,7 @@ class AddMember extends Component {
     return (
       <div className="flexbox-container">
         <Paper className="InputCard">
-          <h2>Add Someone to Your Team</h2>
+          <h2>Signup for Team-It</h2>
           <form className="InputCard-form" onSubmit={this.handleSubmit}>
             <TextField
               name="firstName"
@@ -63,21 +72,28 @@ class AddMember extends Component {
               floatingLabelText="Last Name" />
             <br />
             <TextField
+              name="position"
+              value={this.state.position}
+              onChange={this.handleTextChange}
+              floatingLabelText="Position" />
+            <br />
+            <TextField
               name="email"
               value={this.state.email}
               onChange={this.handleTextChange}
               floatingLabelText="Email" />
             <br />
             <TextField
-              name="position"
-              value={this.state.position}
+              name="password"
+              value={this.state.password}
               onChange={this.handleTextChange}
-              floatingLabelText="Position" />
+              type="password"
+              floatingLabelText="Password" />
             <br />
             <RaisedButton
               className="btn"
               primary={true}
-              label="Add Member"
+              label="Signup"
               onTouchTap={this.handleSubmit}>
             </RaisedButton>
           </form>
@@ -87,4 +103,4 @@ class AddMember extends Component {
   }
 }
 
-export default AddMember;
+export default Register;

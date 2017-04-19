@@ -6,7 +6,6 @@ import BigCalendar from 'react-big-calendar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField'
-import event from './events';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calender.css'
@@ -141,19 +140,25 @@ class Calender extends Component {
     const views = ['week', 'day'];
 
     return (
-      <div className="flexbox-container-calender">
-        <h3>Team Schedule</h3>
-        <p>To add a new event, simply drag the mouse accorss the desired time slots</p>
-        <BigCalendar
-          {...this.props}
-          selectable
-          popup
-          events={this.state.events}
-          defaultView='week'
-          views={views}
-          onSelectEvent={event => this.handleOpen(event)}
-          onSelectSlot={slotInfo => this.newEventDialog(slotInfo)}
-        />
+      <div>
+        <div className="header">
+          <h3>Team Schedule</h3>
+          <p>To add a new event, simply click and drag the mouse across the desired time slots</p>
+        </div>
+        <div className="calender">
+          <BigCalendar
+            {...this.props}
+            selectable
+            popup
+            events={this.state.events}
+            defaultView='week'
+            views={views}
+            onSelectEvent={event => this.handleOpen(event)}
+            onSelectSlot={slotInfo => this.newEventDialog(slotInfo)}
+            scrollToTime={new Date()}
+            min={moment('5:00am', 'h:mma').toDate()}
+          />
+        </div>
         <Dialog
           title="Event Information"
           actions={actions}
@@ -185,13 +190,13 @@ class Calender extends Component {
             <TextField
               name="start"
               value={this.state.start}
-              onChange={this.handleTextChange}
+              disabled={true}
               floatingLabelText="Start Time:" />
             <br />
             <TextField
               name="end"
               value={this.state.end}
-              onChange={this.handleTextChange}
+              disabled={true}
               floatingLabelText="End Time:" />
             <br />
           </form>

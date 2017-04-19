@@ -1,49 +1,20 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom'
+import firebase from '../../Firebase/';
+
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
 import MemberApp from '../Member/MemberApp';
 import AddMember from '../Member/AddMember';
-import Calender from '../Calender/Calender'
+import Calender from '../Calender/Calender';
+import Register from '../Register/Register';
+import Login from '../Login/Login'
 
-const Topic = ({ match }) => (
-  <div>
-    <h3>{match.params.topicId}</h3>
-  </div>
-)
-
-const Topics = ({ match }) => (
-  <div>
-    <h2>Topics</h2>
-    <ul>
-      <li>
-        <Link to={`${match.url}/rendering`}>
-          Rendering with React
-        </Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/components`}>
-          Components
-        </Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/props-v-state`}>
-          Props v. State
-        </Link>
-      </li>
-    </ul>
-
-    <Route path={`${match.url}/:topicId`} component={Topic}/>
-    <Route exact path={match.url} render={() => (
-      <h3>Please select a topic.</h3>
-    )}/>
-  </div>
-)
 
 const buttonStyle = {
   backgroundColor: 'transparent',
@@ -54,22 +25,51 @@ const leftButtons = (
     <div>
       <FlatButton label="Members" style={buttonStyle} containerElement={<Link to="/members"/>} />
       <FlatButton label="Calender" style={buttonStyle} containerElement={<Link to="/calender"/>} />
-      <FlatButton label="Topics" style={buttonStyle} containerElement={<Link to="/topics"/>} />
     </div>
   );
 
-const NavBar = () => (
-  <Router>
-
+const rightButtons = (
     <div>
-      <AppBar iconElementLeft={leftButtons}/>
-      <br />
-      <Route exact path="/" component={MemberApp}/>
-      <Route path="/members" component={MemberApp}/>
-      <Route path="/add-member" component={AddMember}/>
-      <Route path="/calender" component={Calender}/>
-      <Route path="/topics" component={Topics}/>
+      <FlatButton label="Signup" style={buttonStyle} containerElement={<Link to="/register"/>} />
+      <FlatButton label="Login" style={buttonStyle} containerElement={<Link to="/login"/>} />
     </div>
-  </Router>
-)
+  );
+
+class NavBar extends Component {
+  constructor(){
+    super()
+
+    this.state = {
+      loggedIn: false
+    }
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged()
+    .then((user) => {
+      if (user) {
+        this.setState({loggedIn: true})
+        console.log(this.state);
+      } else {
+        this.setState({loggedIn: false})
+        console.log(this.state);
+      }
+    })
+  }
+  render() {
+    return (
+      <Router>
+        <div>
+          <AppBar iconElementLeft={leftButtons} iconElementRight={rightButtons}/>
+          <Route exact path="/" component={Login}/>
+          <Route path="/members" component={MemberApp}/>
+          <Route path="/register" component={Register}/>
+          <Route path="/add-member" component={AddMember}/>
+          <Route path="/calender" component={Calender}/>
+          <Route path="/login" component={Login}/>
+        </div>
+      </Router>
+    )
+  }
+}
 export default NavBar
