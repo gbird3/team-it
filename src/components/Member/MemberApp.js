@@ -10,14 +10,11 @@ import './MemberApp.css';
 class App extends Component {
   render() {
     return (
-      <div>
-        <div className="MainPage-main-content">
-          <div>
-            <RaisedButton label="Add Member" primary={true} className="addMemberBtn" containerElement={<Link to="/add-member"/>} />
-          </div>
+        <div className="flexbox-container">
+          <RaisedButton label="Add Member" primary={true} className="addMemberBtn" containerElement={<Link to="/add-member"/>} />
+          <br />
           <MemberList />
         </div>
-      </div>
     );
   }
 }

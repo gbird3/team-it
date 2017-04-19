@@ -3,8 +3,7 @@ import {firebaseRef} from '../../Firebase';
 
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
-import ContentSend from 'material-ui/svg-icons/content/send'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
+import RaisedButton from 'material-ui/RaisedButton';
 
 import './AddMember.css';
 
@@ -47,38 +46,42 @@ class AddMember extends Component {
 
   render() {
     return (
-      <Paper className="InputCard">
-        <form className="InputCard-form" onSubmit={this.handleSubmit}>
-          <TextField
-            name="firstName"
-            value={this.state.firstName}
-            onChange={this.handleTextChange}
-            floatingLabelText="First Name" />
-          <br />
-          <TextField
-            name="lastName"
-            value={this.state.lastName}
-            onChange={this.handleTextChange}
-            floatingLabelText="Last Name" />
-          <br />
-          <TextField
-            name="email"
-            value={this.state.email}
-            onChange={this.handleTextChange}
-            floatingLabelText="Email" />
-          <br />
-          <TextField
-            name="position"
-            value={this.state.position}
-            onChange={this.handleTextChange}
-            floatingLabelText="Position" />
-          <br />
-          <FloatingActionButton
-            onTouchTap={this.handleSubmit}>
-            <ContentSend />
-          </FloatingActionButton>
-        </form>
-      </Paper>
+      <div className="flexbox-container">
+        <Paper className="InputCard">
+          <form className="InputCard-form" onSubmit={this.handleSubmit}>
+            <TextField
+              name="firstName"
+              value={this.state.firstName}
+              onChange={this.handleTextChange}
+              floatingLabelText="First Name" />
+            <br />
+            <TextField
+              name="lastName"
+              value={this.state.lastName}
+              onChange={this.handleTextChange}
+              floatingLabelText="Last Name" />
+            <br />
+            <TextField
+              name="email"
+              value={this.state.email}
+              onChange={this.handleTextChange}
+              floatingLabelText="Email" />
+            <br />
+            <TextField
+              name="position"
+              value={this.state.position}
+              onChange={this.handleTextChange}
+              floatingLabelText="Position" />
+            <br />
+            <RaisedButton
+              className="btn"
+              primary={true}
+              label="Add Member"
+              onTouchTap={this.handleSubmit}>
+            </RaisedButton>
+          </form>
+        </Paper>
+      </div>
     );
   }
 }

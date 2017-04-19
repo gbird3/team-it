@@ -1,11 +1,28 @@
-.addMemberBtn {
-  float: right;
-  margin-right: 40px;
-  display: block;
+body {
+  background-color: #f2f2f2
 }
 
-/*.MainPage-main-content {
+.addMemberButton {
+  align-items: flex-end;
+}
+
+.MainPage-main-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 70%;
   min-height: 90vh;
-}*/
+}
+
+.flexbox-container {
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+
+	align-items: center;
+  flex-direction: column;
+}

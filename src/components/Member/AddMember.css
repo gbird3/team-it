@@ -1,5 +1,5 @@
 .InputCard {
-  width: 50%;
+  width: 60%;
   margin: 10px;
   min-width: 300px;
   padding: 15px;
@@ -7,4 +7,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+
+.flexbox-container {
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+
+	align-items: center;
+}
+
+.btn {
+  margin: 15px;
+  float: right;
 }
