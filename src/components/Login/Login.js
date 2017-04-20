@@ -39,8 +39,6 @@ class Login extends Component {
         firebase.database().ref().child('User').child(uid)
         .once('value').then((snapshot) => {
           if (snapshot && snapshot.val()) {
-            const user = snapshot.val()
-            console.log(user);
             document.location.href = '/members';
           } else {
             this.setState({
@@ -72,10 +70,10 @@ class Login extends Component {
   render() {
     return (
       <div className="flexbox-container">
-        <Paper className="InputCard">
+        <Paper className="InputCard1">
           <h2>Login to Team-It</h2>
           { this.state.error && <h4 className="error">{this.state.error}</h4> }
-          <form className="InputCard-form" onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit}>
             <TextField
               name="email"
               value={this.state.email}

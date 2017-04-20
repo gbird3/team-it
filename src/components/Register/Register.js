@@ -28,7 +28,7 @@ class Register extends Component {
 
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(authData, error) {
       if (error) {
-        console.log(error);
+        console.log("Error log", error);
       } else {
 
         const newMember = {
@@ -41,10 +41,18 @@ class Register extends Component {
         }
         firebaseRef.child('User').child(authData.uid).set(newMember);
 
+        var user = firebase.auth().currentUser;
+
+        user.updateProfile({
+          displayName: newMember.firstName + ' ' + newMember.lastName
+        }).then(function() {
+          console.log("success");
+        }, function(error) {
+          console.log("Error ", error);
+        });
         document.location.href = '/members'
       }
     })
-
   }
 
   handleTextChange(e) {
@@ -56,9 +64,9 @@ class Register extends Component {
   render() {
     return (
       <div className="flexbox-container">
-        <Paper className="InputCard">
+        <Paper className="InputCard1">
           <h2>Signup for Team-It</h2>
-          <form className="InputCard-form" onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit}>
             <TextField
               name="firstName"
               value={this.state.firstName}

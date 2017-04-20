@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import {firebaseRef} from '../../Firebase';
+import firebase, {firebaseRef} from '../../Firebase';
 import BigCalendar from 'react-big-calendar';
 
 import Dialog from 'material-ui/Dialog';
@@ -29,6 +29,17 @@ class Calender extends Component {
     this.deleteEvent = this.deleteEvent.bind(this);
     this.handleAddEvent = this.handleAddEvent.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
+  }
+
+  componentWillMount() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        console.log(user);
+      } else {
+        console.log("no user");
+        document.location.href = '/login';
+      }
+    });
   }
 
   componentDidMount() {

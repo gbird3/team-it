@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {firebaseRef} from '../../Firebase';
+import { Link } from 'react-router-dom';
 
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
@@ -47,9 +48,9 @@ class AddMember extends Component {
   render() {
     return (
       <div className="flexbox-container">
-        <Paper className="InputCard">
+        <Paper className="InputCard1">
           <h2>Add Someone to Your Team</h2>
-          <form className="InputCard-form" onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit}>
             <TextField
               name="firstName"
               value={this.state.firstName}
@@ -80,6 +81,12 @@ class AddMember extends Component {
               label="Add Member"
               onTouchTap={this.handleSubmit}>
             </RaisedButton>
+            <RaisedButton
+              className="btn"
+              label="Back"
+              secondary={true}
+              containerElement={<Link to="/members"/>}
+            />
           </form>
         </Paper>
       </div>

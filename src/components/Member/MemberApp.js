@@ -9,19 +9,19 @@ import MemberList from './MemberList';
 import './MemberApp.css';
 
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         console.log(user);
       } else {
         console.log("no user");
+        document.location.href = '/login';
       }
     });
   }
   render() {
     return (
         <div>
-
           <div className="flexbox-container">
             <RaisedButton label="Add Member" primary={true} className="addMemberBtn" containerElement={<Link to="/add-member"/>} />
             <br />
